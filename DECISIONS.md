@@ -29,3 +29,26 @@ The cart should not trust the client to send item names or prices, because a cli
 Instead, the API exposes a small in-memory product catalog. Customers add items to the cart using `productId` and `quantity`; the backend looks up the product name and price.
 
 This is closer to a real ecommerce flow while staying within the assignment scope.
+
+## 4. Discount Code Generation on Every Nth Order
+
+The assignment specifies: "Every nth order gets a coupon code for x% discount."
+
+**Context:** The system needs to track orders and auto-generate discount codes for customers.
+
+**Options Considered:**
+
+- Option A: Generate code immediately after the customer places the nth order (reward them)
+- Option B: Generate code after nth order completes, but make it available for ANY future customer
+- Option C: Generate code for the NEXT customer (the n+1th customer gets the benefit)
+
+**Choice:** Option B - Generate after nth order, available for any future customer
+
+**Why:**
+
+- Simpler implementation: no need to pre-assign codes to specific users
+- More realistic: rewards increase engagement by making discount codes available to all customers
+- Encourages repeat purchases: available discounts attract new customers
+- Tradeoff: nth customer doesn't immediately benefit, but system stays stateless (no user accounts needed)
+
+The system generates codes randomly (DISC-XXXXXX format) and marks them used when applied, preventing reuse.
