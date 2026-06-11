@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Ecommerce Discount Store API",
-    "description": "Postman collection for testing the current Ecommerce Discount Store APIs.",
+    "description": "Postman collection for testing the Ecommerce Discount Store APIs - cart, checkout, and admin endpoints.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -159,6 +159,100 @@
           "path": [
             "cart",
             "items"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Checkout (No Discount)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/checkout",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "checkout"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Checkout (With Discount Code)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"discountCode\": \"DISC-ABC123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/checkout",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "checkout"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Admin - Generate Discount Code",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/admin/discounts/generate",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "discounts",
+            "generate"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Admin - Get Stats",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/admin/stats",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "stats"
           ]
         }
       }
