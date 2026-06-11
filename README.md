@@ -10,7 +10,7 @@ This first setup commit establishes the project foundation:
 - Health check route
 - Jest and Supertest test setup
 - Basic project scripts
-- Documentation and decision log placeholders
+- Documentation placeholders
 
 Feature APIs for cart, checkout, discount generation, and admin stats will be added in focused follow-up commits.
 
@@ -36,13 +36,25 @@ npm run dev
 
 The API starts on `http://localhost:3000` by default.
 
+## Project Flow
+
+The API follows a simple request flow:
+
+```text
+routes -> controller -> service
+```
+
+- `routes` define endpoint paths.
+- `controllers` validate requests and build responses.
+- `services` contain business logic and manage in-memory data.
+
 ## Test
 
 ```bash
 npm test
 ```
 
-## Available Endpoint
+## Available Endpoints
 
 ### Health Check
 
@@ -59,11 +71,81 @@ Response:
 }
 ```
 
+### Products
+
+```http
+GET /products
+```
+
+Returns the available in-memory product catalog.
+
+Response:
+
+```json
+{
+  "products": [
+    {
+      "id": "prod_keyboard",
+      "name": "Keyboard",
+      "price": 2500
+    },
+    {
+      "id": "prod_mouse",
+      "name": "Mouse",
+      "price": 1200
+    },
+    {
+      "id": "prod_monitor",
+      "name": "Monitor",
+      "price": 15000
+    }
+  ]
+}
+```
+
+### Cart
+
+```http
+GET /cart
+```
+
+Returns the current in-memory cart.
+
+```http
+POST /cart/items
+```
+
+Request:
+
+```json
+{
+  "productId": "prod_keyboard",
+  "quantity": 2
+}
+```
+
+Response:
+
+```json
+{
+  "items": [
+    {
+      "productId": "prod_keyboard",
+      "name": "Keyboard",
+      "price": 2500,
+      "quantity": 2,
+      "lineTotal": 5000
+    }
+  ],
+  "itemCount": 2,
+  "subtotal": 5000
+}
+```
+
 ## Planned APIs
 
 ### Customer APIs
 
-- `POST /cart/items` - add item to cart
 - `POST /checkout` - place order and optionally apply a discount code
 
 ### Admin APIs
