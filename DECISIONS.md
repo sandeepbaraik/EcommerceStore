@@ -52,3 +52,44 @@ The assignment specifies: "Every nth order gets a coupon code for x% discount."
 - Tradeoff: nth customer doesn't immediately benefit, but system stays stateless (no user accounts needed)
 
 The system generates codes randomly (DISC-XXXXXX format) and marks them used when applied, preventing reuse.
+
+## 5. Separate Manual Admin Discount Generation
+
+The assignment requires: "Admin API to generate discount codes" plus automatic nth-order generation.
+
+**Context:** The system auto-generates codes every 5th order, but admins need to manually create codes too (for promotions, customer service, etc.).
+
+**Options Considered:**
+
+- Option A: Only auto-generate on nth order; admins can't manually create codes
+- Option B: Have admins create codes separately, tracked differently from auto-generated ones
+- Option C: Merge manual and auto codes into one system (treat them the same)
+
+**Choice:** Option C - Single discount code system
+
+**Why:**
+
+- Simpler: one code validation/tracking system handles all codes
+- Flexible: admins can fix customer issues or run promotions without code type differences
+- Customers don't care where the code came from; they just want it to work
+- Easier to audit: all codes tracked in one place with used/unused status
+
+## 6. Clear Cart After Successful Checkout
+
+**Context:** After an order completes, the customer's cart should not persist.
+
+**Options Considered:**
+
+- Option A: Keep cart items, let customer explicitly clear it
+- Option B: Auto-clear cart after successful checkout
+- Option C: Let the customer decide
+
+**Choice:** Option B - Auto-clear on success
+
+**Why:**
+
+- Better UX: customer doesn't accidentally re-order the same items
+- Matches real ecommerce: physical checkout clears the cart automatically
+- Prevents bugs: no confusion about whether old cart persists
+- Simple logic: on checkout success, always clear
+- If checkout fails, cart stays for retry
