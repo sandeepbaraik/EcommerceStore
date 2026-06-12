@@ -84,8 +84,8 @@ describe('Admin API', () => {
         it('shows available codes when generated', async () => {
             const app = createApp();
 
-            // Generate 5 orders to create a discount code
-            for (let i = 0; i < 5; i++) {
+            // Generate 3 orders to create a discount code
+            for (let i = 0; i < 3; i++) {
                 await request(app)
                     .post('/cart/items')
                     .send({ productId: 'prod_mouse', quantity: 1 });
@@ -106,7 +106,7 @@ describe('Admin API', () => {
             const app = createApp();
 
             // Generate discount
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 await request(app)
                     .post('/cart/items')
                     .send({ productId: 'prod_mouse', quantity: 1 });
@@ -138,7 +138,7 @@ describe('Admin API', () => {
             const app = createApp();
 
             // Generate discount code
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 await request(app)
                     .post('/cart/items')
                     .send({ productId: 'prod_mouse', quantity: 1 }); // 1200 each
@@ -160,8 +160,8 @@ describe('Admin API', () => {
 
             const stats2 = await request(app).get('/admin/stats');
 
-            // Total revenue = 5 * 1200 + 2250 = 8250
-            expect(stats2.body.totalRevenue).toBe(8250);
+            // Total revenue = 3 * 1200 + 2250 = 5850
+            expect(stats2.body.totalRevenue).toBe(5850);
         });
     });
 });

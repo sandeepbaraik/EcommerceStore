@@ -6,12 +6,12 @@
  * Business Rule: Every nth completed order generates a discount code
  * for the NEXT customer.
  * 
- * Example: If nthOrderThreshold = 5, the 5th order triggers discount
+ * Example: If nthOrderThreshold = 3, the 3rd order triggers discount
  * code generation. That code is available for any future customer to apply
  * at checkout.
  */
 
-const NTH_ORDER_THRESHOLD = 5;
+const NTH_ORDER_THRESHOLD = 3;
 const DISCOUNT_PERCENT = 10; // 10% discount
 
 // In-memory storage
@@ -164,7 +164,33 @@ function getStats() {
 }
 
 /**
- * Clear all data (for testing)
+ * Add a manually generated discount code
+ * Used by admin API to create codes for promotions/customer service
+ * 
+ * @returns {{ code: string, discountPercent: number }}
+ */
+function addManualDiscountCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = 'DISC-';
+    for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    state.discountCodes.push({
+        code,
+        discountPercent: DISCOUNT_PERCENT,
+        generatedAfterOrder: 'MANUAL',
+        isUsed: false,
+        usedAt: null
+    });
+
+    return {
+        code,
+        discountPercent: DISCOUNT_PERCENT
+    };
+}
+
+/**
  */
 function reset() {
     state.orders = [];
@@ -177,6 +203,7 @@ module.exports = {
     validateDiscountCode,
     markDiscountCodeAsUsed,
     getAvailableDiscountCodes,
+    addManualDiscountCode,
     getStats,
     reset
 };

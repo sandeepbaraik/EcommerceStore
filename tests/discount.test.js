@@ -73,11 +73,11 @@ describe('Discount Service', () => {
             expect(order2.orderNumber).toBe(2);
         });
 
-        it('generates discount code on 5th order', () => {
+        it('generates discount code on 3rd order', () => {
             let result;
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 3; i++) {
                 result = discountService.recordOrder(10000);
-                if (i < 5) {
+                if (i < 3) {
                     expect(result.discountCodeGenerated).toBeNull();
                 }
             }
@@ -85,9 +85,9 @@ describe('Discount Service', () => {
             expect(result.discountCodeGenerated).toMatch(/^DISC-[A-Z0-9]{6}$/);
         });
 
-        it('generates discount code on 10th order', () => {
+        it('generates discount code on 6th order', () => {
             let result;
-            for (let i = 1; i <= 10; i++) {
+            for (let i = 1; i <= 6; i++) {
                 result = discountService.recordOrder(10000);
             }
             expect(result.discountCodeGenerated).not.toBeNull();
@@ -116,7 +116,7 @@ describe('Discount Service', () => {
 
         it('returns available codes only', () => {
             // Generate codes
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 discountService.recordOrder(10000);
             }
 
@@ -153,7 +153,7 @@ describe('Discount Service', () => {
         });
 
         it('includes generated discount codes in stats', () => {
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 discountService.recordOrder(10000);
             }
 

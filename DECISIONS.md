@@ -34,7 +34,7 @@ This is closer to a real ecommerce flow while staying within the assignment scop
 
 The assignment specifies: "Every nth order gets a coupon code for x% discount."
 
-**Context:** The system needs to track orders and auto-generate discount codes for customers.
+**Context:** The system needs to track orders and auto-generate discount codes for customers. We chose n=3 (every 3rd order).
 
 **Options Considered:**
 
@@ -50,6 +50,7 @@ The assignment specifies: "Every nth order gets a coupon code for x% discount."
 - More realistic: rewards increase engagement by making discount codes available to all customers
 - Encourages repeat purchases: available discounts attract new customers
 - Tradeoff: nth customer doesn't immediately benefit, but system stays stateless (no user accounts needed)
+- Every 3rd order was chosen as a reasonable balance: frequent enough to reward customers, sparse enough to not over-issue codes
 
 The system generates codes randomly (DISC-XXXXXX format) and marks them used when applied, preventing reuse.
 
@@ -57,7 +58,7 @@ The system generates codes randomly (DISC-XXXXXX format) and marks them used whe
 
 The assignment requires: "Admin API to generate discount codes" plus automatic nth-order generation.
 
-**Context:** The system auto-generates codes every 5th order, but admins need to manually create codes too (for promotions, customer service, etc.).
+**Context:** The system auto-generates codes every 3rd order, but admins need to manually create codes too (for promotions, customer service, etc.).
 
 **Options Considered:**
 

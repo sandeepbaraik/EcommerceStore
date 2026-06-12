@@ -67,8 +67,8 @@ describe('Checkout API', () => {
         it('applies valid discount code', async () => {
             const app = createApp();
 
-            // Generate 5 orders to create a discount code
-            for (let i = 0; i < 5; i++) {
+            // Generate 3 orders to create a discount code
+            for (let i = 0; i < 3; i++) {
                 await request(app)
                     .post('/cart/items')
                     .send({ productId: 'prod_mouse', quantity: 1 });
@@ -115,7 +115,7 @@ describe('Checkout API', () => {
             const app = createApp();
 
             // Generate discount code
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 await request(app)
                     .post('/cart/items')
                     .send({ productId: 'prod_mouse', quantity: 1 });
@@ -145,16 +145,16 @@ describe('Checkout API', () => {
             expect(response.body.error).toContain('already been used');
         });
 
-        it('generates discount code on 5th order', async () => {
+        it('generates discount code on 3rd order', async () => {
             const app = createApp();
 
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 await request(app)
                     .post('/cart/items')
                     .send({ productId: 'prod_mouse', quantity: 1 });
                 const response = await request(app).post('/checkout').send({});
 
-                if (i < 4) {
+                if (i < 2) {
                     expect(response.body.generatedDiscountCode).toBeNull();
                 } else {
                     expect(response.body.generatedDiscountCode).not.toBeNull();
@@ -167,7 +167,7 @@ describe('Checkout API', () => {
             const app = createApp();
 
             // Generate discount
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 await request(app)
                     .post('/cart/items')
                     .send({ productId: 'prod_mouse', quantity: 1 });
@@ -192,7 +192,7 @@ describe('Checkout API', () => {
             const app = createApp();
 
             // Generate discount
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 await request(app)
                     .post('/cart/items')
                     .send({ productId: 'prod_mouse', quantity: 1 });

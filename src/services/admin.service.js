@@ -15,28 +15,12 @@ const discountService = require('./discount.service');
  * @returns {{ code: string, discountPercent: number }}
  */
 function generateDiscountCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let code = 'DISC-';
-    for (let i = 0; i < 6; i++) {
-        code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-
-    // Add to discount system
-    const state = discountService.getStats(); // Get current state reference
-
-    // Create discount code entry
-    const discountCode = {
-        code,
-        discountPercent: 10,
-        generatedAfterOrder: 'MANUAL',
-        isUsed: false,
-        usedAt: null
-    };
+    const result = discountService.addManualDiscountCode();
 
     return {
-        code,
-        discountPercent: 10,
-        message: `Admin generated discount code: ${code}`
+        code: result.code,
+        discountPercent: result.discountPercent,
+        message: `Admin generated discount code: ${result.code}`
     };
 }
 
