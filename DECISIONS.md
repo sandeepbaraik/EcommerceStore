@@ -94,3 +94,32 @@ The assignment requires: "Admin API to generate discount codes" plus automatic n
 - Prevents bugs: no confusion about whether old cart persists
 - Simple logic: on checkout success, always clear
 - If checkout fails, cart stays for retry
+
+## 7. Stateless Design with Future Authentication Readiness
+
+**Context:** The current system uses a global order counter with no user authentication. This keeps the assignment simple but limits per-customer tracking.
+
+**Current Assumption:**
+
+- Global `orderCounter` tracks all orders regardless of customer
+- Discount codes are generated every 3rd order globally
+- Any customer can apply any available code
+- No customer accounts or login required
+
+**Future Extension (if requirements change):**
+
+- Add `customers` collection with `customerId`, `email`, `orderCount`
+- Change `recordOrder(customerId, cartTotal, discountCode)` to track per-customer order count
+- Generate discount code when **that specific customer** completes their 3rd order
+- Discount code remains globally usable (any customer can apply it)
+- No changes needed to code validation/usage logic
+
+**Why This Design Matters:**
+
+- **Assignment scope**: Current global approach is simpler to implement and test
+- **Scalability**: Can add authentication layer without major refactoring
+- **Code reusability**: Discount codes are shared globally (don't need to assign per-customer)
+- **Service layer isolation**: Business logic separated from auth concerns
+- **Minimal breaking changes**: Adding `customerId` parameter requires no other service changes
+
+**Key Insight:** The discount code system is designed to be **customer-agnostic**. Codes are global resources generated based on order patterns. Who generates them (global counter vs. customer counter) is just a data input—the validation and usage logic stays identical.
